@@ -1,6 +1,6 @@
-# #Contrôle automatique des volets en fonction de la position du soleil et de la température extérieur
-# #Auteur : Cyril Barthel
-# #Version : 2.4
+# #Control Automatico de las Persianas en funcion de la posicion del Sol y la temperatura Exteriror
+# #Autor : Jose Angel Gonzalez
+# #Version : 1.0
 blueprint:
   name: sun protection
   description: close cover when sun is shining and open when stops
