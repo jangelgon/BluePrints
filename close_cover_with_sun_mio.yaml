@@ -2,7 +2,7 @@
 # #Autor : Jose Angel Gonzalez
 # #Version : 1.0
 blueprint:
-  name: sun protection mio
+  name: PERSIANAS - Sun Protection (Mio)
   description: close cover when sun is shining and open when stops
   domain: automation
   source_url: https://github.com/jangelgon/BluePrints/blob/main/close_cover_with_sun_mio.yaml
