@@ -1,5 +1,5 @@
 blueprint:
-  name: Pause mediaplayer when calling.
+  name: Mute mediaplayer when calling.
   description: 'Pause a mediaplayer when phone rings or is calling. Only when person
     is home and the mediaplayer is playing. Base on https://gist.github.com/JackPoint/2375dd5d15f0b4c52161207170c14f60
 
