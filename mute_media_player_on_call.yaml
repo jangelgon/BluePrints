@@ -37,7 +37,7 @@ blueprint:
         entity:
           domain: media_player
           multiple: false
-  source_url: https://github.com/haim-b/home_assistant_stuff/blob/3edac395890bd93dc13e1a7738debeef728a9bd7/pause_media_player_on_call.yaml
+  source_url: https://github.com/jangelgon/BluePrints/edit/main/mute_media_player_on_call.yaml
 trigger:
 - platform: state
   entity_id: !input phone_state
@@ -55,7 +55,7 @@ condition:
   entity_id: !input media_player
   state: playing
 action:
-- service: media_player.media_play_pause
+- service: media_player.volume_mute
   entity_id: !input media_player
 - wait_for_trigger:
   - platform: state
@@ -63,5 +63,5 @@ action:
     to: idle
   timeout:
     seconds: 300
-- service: media_player.media_play_pause
+- service: media_player.volume_mute
   entity_id: !input media_player
