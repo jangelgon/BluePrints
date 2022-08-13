@@ -1,0 +1,67 @@
+blueprint:
+  name: Pause mediaplayer when calling.
+  description: 'Pause a mediaplayer when phone rings or is calling. Only when person
+    is home and the mediaplayer is playing. Base on https://gist.github.com/JackPoint/2375dd5d15f0b4c52161207170c14f60
+
+    '
+  domain: automation
+  input:
+    phone_state:
+      name: Phone State sensor
+      description: All sensors form the mobile app. Select the phone state sensor
+        here.
+      selector:
+        entity:
+          integration: mobile_app
+          domain: sensor
+          multiple: false
+    person:
+      name: Person
+      description: Select the person that needs to be at the zone selected.
+      selector:
+        entity:
+          domain: person
+          multiple: false
+    zone:
+      name: Zone
+      description: Select the Zone the person needs to be in.
+      default: zone.home
+      selector:
+        entity:
+          domain: zone
+          multiple: false
+    media_player:
+      name: Media Player
+      description: Select the media player that needs to be paused.
+      selector:
+        entity:
+          domain: media_player
+          multiple: false
+  source_url: https://github.com/haim-b/home_assistant_stuff/blob/3edac395890bd93dc13e1a7738debeef728a9bd7/pause_media_player_on_call.yaml
+trigger:
+- platform: state
+  entity_id: !input phone_state
+  to: ringing
+- platform: state
+  entity_id: !input phone_state
+  to: offhook
+variables:
+  zone: !input zone
+  zone_name: '{{ zone[5:] }}'
+  entity: !input person
+condition:
+- '{{is_state(entity, zone_name)}}'
+- condition: state
+  entity_id: !input media_player
+  state: playing
+action:
+- service: media_player.media_play_pause
+  entity_id: !input media_player
+- wait_for_trigger:
+  - platform: state
+    entity_id: !input phone_state
+    to: idle
+  timeout:
+    seconds: 300
+- service: media_player.media_play_pause
+  entity_id: !input media_player
