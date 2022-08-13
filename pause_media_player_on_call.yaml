@@ -37,7 +37,7 @@ blueprint:
         entity:
           domain: media_player
           multiple: false
-  source_url: https://github.com/haim-b/home_assistant_stuff/blob/3edac395890bd93dc13e1a7738debeef728a9bd7/pause_media_player_on_call.yaml
+  source_url: https://github.com/jangelgon/BluePrints/blob/main/pause_media_player_on_call.yaml
 trigger:
 - platform: state
   entity_id: !input phone_state
