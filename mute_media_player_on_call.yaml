@@ -1,9 +1,7 @@
 blueprint:
   name: Mute mediaplayer when calling.
   description: 'Mute a mediaplayer when phone rings or is calling. Only when person
-    is home and the mediaplayer is playing. Base on https://gist.github.com/JackPoint/2375dd5d15f0b4c52161207170c14f60
-
-    '
+    is home and the mediaplayer is playing. Base on https://gist.github.com/JackPoint/2375dd5d15f0b4c52161207170c14f60'
   domain: automation
   input:
     phone_state:
@@ -32,7 +30,7 @@ blueprint:
           multiple: false
     media_player:
       name: Media Player
-      description: Select the media player that needs to be paused.
+      description: Select the media player that needs to be muted.
       selector:
         entity:
           domain: media_player
