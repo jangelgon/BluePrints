@@ -1,0 +1,104 @@
+alias: Find Selected Devices
+sequence:
+  - variables:
+      icon_color_hex: "{{ \"#{:02x}{:02x}{:02x}\".format(*notification_colour) }}"
+    alias: Script Variables
+  - alias: Send a request to the selected devices to make themselves heard
+    choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ not watches }}"
+            alias: Phones were selected
+        sequence:
+          - alias: Send a command to each of the selected devices to play an alert
+            repeat:
+              for_each: "{{ find_devices }}"
+              sequence:
+                - alias: Sends a command to the selected devices
+                  data:
+                    message: "{{ message }}"
+                    title: Find my phone
+                    data:
+                      notification_icon: "{{notification_icon}}"
+                      color: "{{icon_color_hex}}"
+                      ttl: 0
+                      importance: high
+                      priority: high
+                      tag: Find
+                      channel: alarm_stream
+                      media_stream: alarm_stream_max
+                  action: >-
+                    notify.mobile_app_{{ device_attr(repeat.item, 'name') |
+                    slugify }}
+      - conditions:
+          - alias: Watches were selected
+            condition: template
+            value_template: "{{ watches }}"
+        sequence:
+          - alias: Send a command to each of the selected devices to play an alert
+            repeat:
+              for_each: "{{ find_devices }}"
+              sequence:
+                - alias: Sends a command to the selected devices
+                  data:
+                    message: TTS
+                    title: Find my watch
+                    data:
+                      notification_icon: "{{notification_icon}}"
+                      tag: Find
+                      channel: alarm_stream
+                      priority: high
+                      ttl: 0
+                      tts_text: I'm over here
+                      media_stream: alarm_stream_max
+                  action: >-
+                    notify.mobile_app_{{ device_attr(repeat.item, 'name') |
+                    slugify }}
+mode: single
+icon: mdi:cellphone-wireless
+description: Sends a find-my-phone request to the selected devices
+fields:
+  find_devices:
+    name: Devices to Find
+    description: Select the device(s) you would like to find (Android Only)
+    default: []
+    selector:
+      device:
+        filter:
+          - integration: mobile_app
+        multiple: true
+    required: true
+  message:
+    selector:
+      text: null
+    name: message
+    description: What message would you like to display?
+    default: Your Phone is here!
+    required: true
+  notification_icon:
+    selector:
+      icon: {}
+    name: Notification Icon
+    description: >-
+      The Notification Icon (Android Only & for devices running the Home
+      Assistant app)
+    default: mdi:home-assistant
+    required: true
+  notification_colour:
+    selector:
+      color_rgb: {}
+    name: Notification Colour
+    description: The colour of the notification icon
+    required: true
+    default:
+      - 102
+      - 186
+      - 240
+  watches:
+    selector:
+      boolean: {}
+    name: Watches
+    description: >-
+      Are you selecting watches? (Don't request phones and watches at the same
+      time)
+    required: true
